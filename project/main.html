@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>המטלות שלי</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand">ניהול עבודות צוערים</span>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="main.html">העבודות שלי</a>
+                <a class="nav-link" href="add-task.html">הוספת עבודה</a>
+                <a class="nav-link" href="contact.html">צור קשר</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">רשימת המטלות שלי</h1>
+        
+        <div class="text-start mb-3">
+            <button id="btnShowHidden" class="btn btn-secondary btn-sm">הסתכל על המטלות שהוסתרו</button>
+        </div>
+
+        <div class="row">
+            
+            <div class="col-md-6 mb-3" id="task1">
+                <div class="task-card time-short">
+                    <h3>פיזיקה 2</h3>
+                    <p>תאריך הגשה: <strong>מחר</strong></p>
+                    <p>רמת קושי: קשה</p>
+                    <div class="mb-2">
+                        <input type="checkbox" class="task-checkbox" id="check1">
+                        <label for="check1">האם השלמת את המשימה?</label>
+                    </div>
+                    <button id="btnHide1" class="btn btn-dark btn-sm">הסתר מטלה</button>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3" id="task2">
+                <div class="task-card time-medium">
+                    <h3>חקר ביצועים</h3>
+                    <p>תאריך הגשה: <strong>בעוד שבוע</strong></p>
+                    <p>רמת קושי: קל</p>
+                    <div class="mb-2">
+                        <input type="checkbox" class="task-checkbox" id="check2">
+                        <label for="check2">האם השלמת את המשימה?</label>
+                    </div>
+                    <button id="btnHide2" class="btn btn-dark btn-sm">הסתר מטלה</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="hiddenSection" class="mt-5" style="display: none;">
+            <h4>משימות שהושלמו והוסתרו:</h4>
+            <div id="hiddenTasksList" class="mt-3">
+                
+                <div id="strip1" class="hidden-task-strip justify-content-between align-items-center" style="display: none;">
+                    <h5>פיזיקה 2</h5>
+                    <button type="button" id="btnUndo1" class="btn btn-secondary btn-sm">בטל הסתרה</button>
+                </div>
+
+                <div id="strip2" class="hidden-task-strip justify-content-between align-items-center" style="display: none;">
+                    <h5>חקר ביצועים</h5>
+                    <button type="button" id="btnUndo2" class="btn btn-secondary btn-sm">בטל הסתרה</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

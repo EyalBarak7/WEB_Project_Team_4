@@ -1,0 +1,46 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #ECF0F1; /* אפור בהיר לפי האפיון */
+    color: #2C3E50; /* כחול כהה לפי האפיון */
+    direction: rtl;
+}
+
+/* כרטיסיית מטלה רגילה */
+.task-card {
+    background-color: #ffffff;
+    border: 1px solid #DEE2E6;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* צבעי סיווג דחיפות לפי האפיון */
+.time-short {
+    border-right: 6px solid #E74C3C; /* אדום אפיון */
+    background-color: #FDEDEC;
+}
+
+.time-medium {
+    border-right: 6px solid #F39C12; /* כתום */
+    background-color: #FEF5E7;
+}
+
+/* מלבן דק למטלות שהוסתרו */
+.hidden-task-strip {
+    background-color: #ffffff;
+    border: 1px solid #BDC3C7;
+    border-right: 4px solid #7F8C8D;
+    padding: 10px 15px; 
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+
+/* === דרישת חובה: אנימציית CSS לפרויקט === */
+.text-animation {
+    animation: pulseEffect 2s infinite alternate;
+}
+
+@keyframes pulseEffect {
+    from { transform: scale(1); opacity: 0.9; }
+    to { transform: scale(1.03); opacity: 1; }
+}
