@@ -5,12 +5,16 @@
     <title>צור קשר</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LOGO.png">
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <span class="navbar-brand">ניהול עבודות צוערים</span>
+            <a href="main.html">
+        <img src="LOGO.png" alt=" צ'קליסט" class="LOGO">
+        </a>
+            <span class="navbar-brand">צ'קליסט</span>
             <div class="navbar-nav">
                 <a class="nav-link" href="main.html">העבודות שלי</a>
                 <a class="nav-link" href="add-task.html">הוספת עבודה</a>
@@ -20,17 +24,18 @@
     </nav>
 
     <div class="container mt-5" style="max-width: 500px;">
-        <h2 class="mb-4 text-center">פנייה ישירה לסגל המרצים</h2>
+        <h1 class="text-center mb-4">פנייה ישירה לסגל המרצים</h1>
         
         <form id="contactForm" class="bg-white p-4 border rounded shadow-sm">
             
             <div class="mb-3">
                 <label class="form-label">בחירת מרצה:</label>
-                <select id="lecturerSelect" class="form-select" required>
-                    <option value="">-- בחר מרצה מהרשימה --</option>
-                    <option value="prof_cohen">פרופ' משה כהן (פיזיקה 2)</option>
-                    <option value="dr_rosen">ד"ר דנה רוזן (חקר ביצועים)</option>
-                    <option value="dr_levi">ד"ר ארז לוי (מתרגל)</option>
+                 <select id="lecturerSelect" class="form-select" required>
+                     <option value=""> בחר מרצה מהרשימה</option>
+                     <option value="XXX@post.bgu.ac.il">יובל גנות (פיזיקה 2)</option>
+                     <option value="XXXX@post.bgu.ac.il">דביר שבתאי (חקר ביצועים)</option>
+                     <option value="XXXXX@post.bgu.ac.il">רועי זיון (פתמ"ע)</option>
+                     <option value="XXXXXX@post.bgu.ac.il"> איציק גורביץ' (ווב)</option>
                 </select>
             </div>
 
@@ -41,7 +46,7 @@
 
             <div class="mb-3">
                 <label class="form-label">פרטים:</label>
-                <textarea id="contactDetails" class="form-control" rows="5" placeholder="כתוב כאן בהרחבה את פרטי פנייתך..." required></textarea>
+                <textarea id="contactDetails" class="form-control" rows="5" placeholder="כתוב כאן את פרטי הפנייה..." required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">שלח פנייה</button>
