@@ -30,7 +30,6 @@ header {
   transform: scale(1.15); 
 }
 
-/* 🛠️ תיקון: שונה מ-class ל-ID כדי להתאים בדיוק להודעה הדינמית מה-JS */
 #noTasksMessage { 
     color: white;     
 }

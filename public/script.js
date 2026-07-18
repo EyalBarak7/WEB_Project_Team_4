@@ -1,9 +1,7 @@
 // משתנה גלובלי לשמירת מצב התצוגה (האם המשתמש ביקש לראות מוסתרות)
 let isShowingHidden = false;
 
-// ========================================================
-// 🎨 פונקציית עזר: חישוב צבע כרטיסיית המטלה לפי הזמן הנותר
-// ========================================================
+//  פונקציית עזר: חישוב צבע כרטיסיית המטלה לפי הזמן הנותר
 function getColor(dateString) {
     if (!dateString) return "time-long"; 
 
@@ -22,9 +20,7 @@ function getColor(dateString) {
     return "time-long";                       
 }
 
-// ========================================================
-// 📥 1. שליפת מטלות מהשרת והצגתן במסך (פתרון הפרשים מוחלט)
-// ========================================================
+//  1. שליפת מטלות מהשרת והצגתן במסך 
 async function showTasks(includeHidden = false) {
     const tasksContainer = document.getElementById("tasksContainer");
     if (!tasksContainer) return; 
@@ -55,7 +51,6 @@ async function showTasks(includeHidden = false) {
             const task = tasks[i];
             const formattedDate = new Date(task.date).toISOString().split('T')[0];
 
-            // 🎯 בדיקה לוגית מוחלטת: אם ה-ID של המטלה לא קיים ברשימת הפעילות, היא בהכרח מוסתרת!
             const isTaskHidden = !activeIds.has(task.taskId);
 
             if (isTaskHidden) {
@@ -101,9 +96,7 @@ async function showTasks(includeHidden = false) {
     }
 }
 
-// ========================================================
-// 🔎 3. פונקציית החלפת מצב משימות מוסתרות (עבור הכפתור)
-// ========================================================
+//  3. פונקציית החלפת מצב משימות מוסתרות (עבור הכפתור)
 function toggleHiddenTasks() {
     isShowingHidden = !isShowingHidden;
     
@@ -120,9 +113,7 @@ window.hideTask = hideTask;
 window.toggleTaskStatus = toggleTaskStatus;
 window.toggleHiddenTasks = toggleHiddenTasks;
 
-// ========================================================
-// 🔄 2. עדכון סטטוס מטלה (כשלוחצים על ה-Checkbox)
-// ========================================================
+// 2. עדכון סטטוס מטלה (כשלוחצים על ה-Checkbox)
 async function toggleTaskStatus(taskId) {
     const checkBox = document.getElementById("check-" + taskId);
     const newStatus = checkBox.checked ? 'סיימתי' : 'לא התחלתי';
@@ -138,9 +129,7 @@ async function toggleTaskStatus(taskId) {
     }
 }
 
-// ========================================================
-// 👁️ 3. הסתרת מטלה (שליחת כל השמות האפשריים לשרת)
-// ========================================================
+//  3. הסתרת מטלה (שליחת כל השמות האפשריים לשרת)
 function hideTask(taskId) {
     fetch('/api/tasks/' + taskId, {
         method: 'PUT',
@@ -170,9 +159,7 @@ function hideTask(taskId) {
     });
 }
 
-// ========================================================
-// 🔓 ביטול הסתרת מטלה והחזרתה לרשימה הפעילה
-// ========================================================
+//  ביטול הסתרת מטלה והחזרתה לרשימה הפעילה
 function unhideTask(taskId) {
     fetch('/api/tasks/' + taskId, {
         method: 'PUT',
@@ -201,9 +188,7 @@ function unhideTask(taskId) {
 }
 window.unhideTask = unhideTask; // חשיפה ל-HTML
 
-// ========================================================
-// 🔎 4. פונקציית החלפת מצב משימות מוסתרות (עבור הכפתור)
-// ========================================================
+//  4. פונקציית החלפת מצב משימות מוסתרות (עבור הכפתור)
 function toggleHiddenTasks() {
     isShowingHidden = !isShowingHidden;
     
@@ -220,9 +205,7 @@ window.hideTask = hideTask;
 window.toggleTaskStatus = toggleTaskStatus;
 window.toggleHiddenTasks = toggleHiddenTasks;
 
-// ========================================================
 // ⚡ טעינת מאזינים לאירועים ברגע שהדף מוכן (מניעת קריסות לוגין)
-// ========================================================
 window.addEventListener("load", function() {
 
     // טעינה ראשונית של המטלות
@@ -325,7 +308,7 @@ window.addEventListener("load", function() {
         });
     }
 
-    // ➕ עמוד הוספת מטלה
+    //  עמוד הוספת מטלה
     const btnSaveTask = document.getElementById("btnSaveTask");
     if (btnSaveTask) {
         btnSaveTask.addEventListener("click", async function() {
@@ -360,7 +343,7 @@ window.addEventListener("load", function() {
         });
     }
 
-    // ✉️ עמוד יצירת קשר עם המרצים
+    //  עמוד יצירת קשר עם המרצים
     const contactForm = document.getElementById("contactForm");
     if (contactForm) {
         contactForm.addEventListener("submit", async function(event) {

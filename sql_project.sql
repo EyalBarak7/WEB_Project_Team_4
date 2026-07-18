@@ -1,4 +1,3 @@
--- יצירת מסד הנתונים עם תמיכה מלאה בעברית
 
 CREATE DATABASE IF NOT EXISTS checklist_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE checklist_db;
@@ -19,10 +18,9 @@ DROP TABLE IF EXISTS Departments;
 -- החזרת בדיקת מפתחות זרים לפעולה
 SET FOREIGN_KEY_CHECKS = 1;
 
--- מכאן והלאה יבואו פקודות ה-CREATE TABLE שלך...
--- ==========================================
+
 -- 1. טבלאות תשתית (ללא מפתחות זרים)
--- ==========================================
+
 
 -- טבלת סמסטרים
 CREATE TABLE Semesters (
@@ -45,11 +43,7 @@ CREATE TABLE Faculty (
     role_type ENUM('מרצה', 'מתרגל') NOT NULL DEFAULT 'מרצה'
 );
 
--- ==========================================
--- 2. טבלאות תלויות (כוללות מפתחות זרים)
--- ==========================================
-
--- טבלת משתמשים (צוערי קורס טיס)
+-- טבלת משתמשים 
 CREATE TABLE Users (
     user_id CHAR(36) DEFAULT (UUID()) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -60,7 +54,7 @@ CREATE TABLE Users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP NULL,
     
-    -- אילוץ המבטיח רישום רק עם מייל אוניברסיטאי
+
     CONSTRAINT chk_email_domain CHECK (email LIKE '%@post.bgu.ac.il'),
     
     FOREIGN KEY (department_id) REFERENCES Departments(department_id),
@@ -77,7 +71,7 @@ CREATE TABLE Courses (
     FOREIGN KEY (semester_id) REFERENCES Semesters(semester_id)
 );
 
--- טבלת גישור: שיוך סגל לקורסים (קשר רבים לרבים)
+-- שיוך סגל לקורסים 
 CREATE TABLE Course_Faculty (
     course_id INT NOT NULL,
     faculty_id INT NOT NULL,
@@ -87,11 +81,7 @@ CREATE TABLE Course_Faculty (
     FOREIGN KEY (faculty_id) REFERENCES Faculty(faculty_id) ON DELETE CASCADE
 );
 
--- ==========================================
--- 3. טבלאות ליבה תפעוליות (מתוקן)
--- ==========================================
-
--- טבלת מטלות בית (גלובלית - רק פרטי המטלה)
+-- טבלת מטלות בית 
 CREATE TABLE Tasks (
     task_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id CHAR(36) NOT NULL, -- הסטודנט שהעלה ויצר את המטלה המקורית
@@ -106,7 +96,7 @@ CREATE TABLE Tasks (
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
 
--- טבלת מצב מטלה למשתמש (פרסונלית - כאן קורה הקסם של ההסתרה והסטטוס הפרטי)
+-- טבלת מצב מטלה למשתמש 
 CREATE TABLE User_Task_State (
     user_id CHAR(36) NOT NULL,
     task_id BIGINT NOT NULL,
@@ -118,11 +108,10 @@ CREATE TABLE User_Task_State (
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (task_id) REFERENCES Tasks(task_id) ON DELETE CASCADE,
     
-    -- הלוגיקה העסקית שלך נשמרת כאן ברמה האישית!
     CONSTRAINT chk_hidden_status CHECK (is_hidden = FALSE OR (is_hidden = TRUE AND status = 'סיימתי'))
 );
 
--- טבלת פניות למרצים (ללא שינוי)
+-- טבלת פניות למרצים 
 CREATE TABLE Contact_Inquiries (
     inquiry_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id CHAR(36) NOT NULL,
@@ -135,9 +124,6 @@ CREATE TABLE Contact_Inquiries (
     FOREIGN KEY (faculty_id) REFERENCES Faculty(faculty_id)
 );
 
--- ==========================================
--- 4. הכנסת נתוני תשתית בסיסיים (אופציונלי - לבדיקה)
--- ==========================================
 
 INSERT INTO Semesters (semester_name) VALUES ("semD"), ("semH"), ("semV");
 INSERT INTO Departments (department_name) VALUES ("data-base"), ("politics"), ("computer-science");

@@ -14,15 +14,13 @@ const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// הגדרות תשתית (Middlewares)
+// הגדרות תשתית 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // מאפשר קריאה וכתיבה של עוגיות (Cookies)
 
-// ==========================================
-// 🗄️ חיבור לבסיס הנתונים (MySQL Connection Pool)
-// ==========================================
+//  חיבור לבסיס הנתונים 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -43,9 +41,8 @@ db.getConnection()
         console.error("❌ שגיאה בחיבור למסד הנתונים. ודא שהפרטים ב-.env נכונים ושבסיס הנתונים פעיל:", err.message);
     });
 
-// ==========================================
+
 // 🚀 Routes - נתיבי API לטיפול בבקשות
-// ==========================================
 
 // 1. התחברות משתמש (Login)
 app.post('/api/login', async (req, res) => {
@@ -76,13 +73,13 @@ app.post('/api/login', async (req, res) => {
         // עדכון זמן התחברות אחרון
         await db.query('UPDATE Users SET last_login = CURRENT_TIMESTAMP WHERE user_id = ?', [user.user_id]);
 
-        // 🍪 שמירת פרטי המשתמש בעוגיה למשך 24 שעות כדי "לזכור" אותו
+        // שמירת פרטי המשתמש בעוגיה למשך 24 שעות כדי "לזכור" אותו
         res.cookie('user_session', JSON.stringify({
             userId: user.user_id,
             departmentId: user.department_id,
             semesterId: user.semester_id,
             fullName: user.full_name
-        }), { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+        }), { maxAge: 48 * 60 * 60 * 1000, httpOnly: true });
 
         return res.status(200).json({ message: "התחברת בהצלחה!", user: { fullName: user.full_name } });
 
@@ -95,19 +92,13 @@ app.post('/api/login', async (req, res) => {
 // 2. הרשמת משתמש חדש (Register)
 app.post('/api/register', async (req, res) => {
 
-    //-----------------------------------------------------------------------------------------------------
     // הוסף את ההדפסות האלו כדי לראות מה באמת מגיע מהלקוח
 console.log("Received Department:", `"${req.body.department}"`);
 console.log("Received Semester:", `"${req.body.semester}"`);
 
-// הוסף .trim() כדי לנקות רווחים בטעות
 const departmentSelect = req.body.department ? req.body.department.trim() : "";
 const semesterSelect = req.body.semester ? req.body.semester.trim() : "";
 
-// כאן יבואו השאילתות שלך ל-SQL...
-// השתמש במשתנים departmentName ו-semesterName בשאילתות!
-
-//-----------------------------------------------------------------------------------------------------^
     const { email, password, fullName} = req.body;
     console.log("Received Email:", `"${email}"+"${password}"+"${fullName}"+"${departmentSelect}"+"${semesterSelect}"`);
     if (!email || !password || !fullName || !departmentSelect || !semesterSelect) {
@@ -124,24 +115,19 @@ const semesterSelect = req.body.semester ? req.body.semester.trim() : "";
             return res.status(400).json({ error: "משתמש עם אימייל זה כבר קיים במערכת." });
         }
 
-       // שליפת ה-ID של המגמה והסמסטר שנבחרו - שים לב לסוגריים המרובעים [ ] שהוספו כאן!
     const [deptResult] = await db.query('SELECT department_id FROM Departments WHERE department_name = ?', [departmentSelect]);
     const [semResult] = await db.query('SELECT semester_id FROM Semesters WHERE semester_name = ?', [semesterSelect]);
 
-    // לוגים מתוקנים כדי לראות את השורות האמיתיות שעולות מה-DB
     console.log("Rows found in Departments:", JSON.stringify(deptResult));
     console.log("Rows found in Semesters:", JSON.stringify(semResult));
 
-    // עכשיו הבדיקה הזו תעבוד כמו שצריך ותגן על השרת מקריסה!
     if (deptResult.length === 0 || semResult.length === 0) {
         return res.status(400).json({ error: "מגמה או סמסטר לא תקינים." });
     }
 
-    // שליפת ה-ID מתוך השורה הראשונה במערך
     const deptId = deptResult[0].department_id;
     const semId = semResult[0].semester_id;
 
-        // הכנסת המשתמש החדש ל-DB (יצירת UUID מתבצעת אוטומטית על ידי ה-DB)
         await db.query(
             'INSERT INTO Users (email, password_hash, full_name, department_id, semester_id) VALUES (?, ?, ?, ?, ?)',
             [email, password, fullName, deptId, semId]
@@ -155,7 +141,6 @@ const semesterSelect = req.body.semester ? req.body.semester.trim() : "";
     }
 });
 
-// פונקציית עזר לניקוי מטלות ישנות (העמודה תוקנה ל-due_date)
 async function cleanOldTasks() {
     try {
         const findOldTasksQuery = `SELECT task_id FROM Tasks WHERE due_date < NOW() - INTERVAL 3 DAY`;
@@ -183,7 +168,7 @@ app.get('/api/tasks', async (req, res) => {
 
     const { userId, departmentId, semesterId } = JSON.parse(sessionCookie);
     
-    // 🔍 בדיקה האם הלקוח ביקש לראות גם משימות מוסתרות (למשל: /api/tasks?includeHidden=true)
+    //  בדיקה האם הלקוח ביקש לראות גם משימות מוסתרות 
     const includeHidden = req.query.includeHidden === 'true';
 
     // קריאה לפונקציית הניקוי האוטומטי לפני ששולפים את הנתונים ללקוח
@@ -288,12 +273,10 @@ app.put('/api/tasks/:id', async (req, res) => {
         let currentStatus = status || (existing.length > 0 ? existing[0].status : 'לא התחלתי');
         let currentHidden = isHidden !== undefined ? isHidden : (existing.length > 0 ? existing[0].is_hidden : false);
 
-        // 🔥 התיקון: חסימת הסתרה אם המטלה לא בוצעה
         if (currentHidden === true && currentStatus !== 'סיימתי') {
             return res.status(400).json({ error: "חובה לסמן את המטלה כ'סיימתי' לפני שניתן להסתיר אותה." });
         }
 
-        // שימוש ב-ON DUPLICATE KEY UPDATE כדי ליצור רשומה אישית חדשה או לעדכן קיימת
         const query = `
             INSERT INTO User_Task_State (user_id, task_id, status, is_hidden)
             VALUES (?, ?, ?, ?)
@@ -340,7 +323,7 @@ app.post('/api/contact', async (req, res) => {
         );
 
         // סימולציית שליחת מייל אמיתי לקונסול
-        console.log(`✉️ מייל נשלח בהצלחה אל המרצה בכתובת: ${facultyEmail}`);
+        console.log(` מייל נשלח בהצלחה אל המרצה בכתובת: ${facultyEmail}`);
         console.log(`נושא: ${subject}`);
         console.log(`תוכן: ${details}`);
 
@@ -358,9 +341,8 @@ app.get('/api/logout', (req, res) => {
     return res.status(200).json({ message: "התנתקת בהצלחה!" });
 });
 
-// ==========================================
 // נתיב דף הבית
-// ==========================================
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Index.html'));
 });
@@ -369,8 +351,6 @@ app.get('/', (req, res) => {
 
 // הפעלת השרת
 app.listen(PORT, () => {
-    console.log(`==================================================`);
-    console.log(`🚀 השרת פועל בהצלחה!`);
-    console.log(`🌐 כנס בדפדפן לכתובת: http://localhost:${PORT}`);
-    console.log(`==================================================`);
+    console.log(` השרת פועל בהצלחה!`);
+    console.log(`כנס בדפדפן לכתובת: http://localhost:${PORT}`);
 });
