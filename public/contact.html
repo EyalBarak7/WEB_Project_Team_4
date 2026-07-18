@@ -10,18 +10,24 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a href="main.html">
-        <img src="LOGO.png" alt=" צ'קליסט" class="LOGO">
+    <div class="container-fluid" style="position: relative;">
+        <a href="main.html">
+            <img src="LOGO.png" alt=" צ'קליסט" class="LOGO">
         </a>
-            <span class="navbar-brand">צ'קליסט</span>
-            <div class="navbar-nav">
-                <a class="nav-link" href="main.html">העבודות שלי</a>
-                <a class="nav-link" href="add-task.html">הוספת עבודה</a>
-                <a class="nav-link active" href="contact.html">צור קשר</a>
-            </div>
+        
+        <!-- הטריק: אלמנט בלתי נראה שומר על העובי המקורי של השורה -->
+        <span class="navbar-brand" style="visibility: hidden;font-size: 75px;">צ'קליסט</span>
+        
+        <!-- המילה האמיתית שממורכזת באופן מוחלט -->
+        <span class="navbar-brand" style="position: absolute; left: 50%; transform: translateX(-50%);">צ'קליסט</span>
+        
+        <div class="navbar-nav">
+            <a class="nav-link active" href="main.html">העבודות שלי</a>
+            <a class="nav-link" href="add-task.html">הוספת עבודה</a>
+            <a class="nav-link" href="contact.html">צור קשר</a>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container mt-5" style="max-width: 500px;">
         <h1 class="text-center mb-4">פנייה ישירה לסגל המרצים</h1>
@@ -32,10 +38,8 @@
                 <label class="form-label">בחירת מרצה:</label>
                  <select id="lecturerSelect" class="form-select" required>
                      <option value=""> בחר מרצה מהרשימה</option>
-                     <option value="XXX@post.bgu.ac.il">יובל גנות (פיזיקה 2)</option>
-                     <option value="XXXX@post.bgu.ac.il">דביר שבתאי (חקר ביצועים)</option>
-                     <option value="XXXXX@post.bgu.ac.il">רועי זיון (פתמ"ע)</option>
-                     <option value="XXXXXX@post.bgu.ac.il"> איציק גורביץ' (ווב)</option>
+                     <option value="2"> איציק גורביץ' (ווב)</option>
+                     <option value="1"> אייל ברק (בדיקה)</option>
                 </select>
             </div>
 

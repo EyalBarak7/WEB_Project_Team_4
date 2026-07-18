@@ -13,18 +13,26 @@ header {
     justify-content: flex-start; 
     align-items: center;       
 }
+
 .navbar-brand:hover {
     color: #1a3848 !important; 
 }
+
 /* עיצוב הלוגו */
 .LOGO {
     height: 50px;       
     border-radius: 30px;  
-    display: internal;
+    display: inline-block;
 }
+
 .LOGO:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
   transform: scale(1.15); 
+}
+
+/* 🛠️ תיקון: שונה מ-class ל-ID כדי להתאים בדיוק להודעה הדינמית מה-JS */
+#noTasksMessage { 
+    color: white;     
 }
 
 .task-card {
@@ -50,39 +58,67 @@ header {
     border-right: 6px solid #2ecc71; 
     background-color: #5eae7f;
 }
-/*בלוק עליון*/
+
+/* בלוק עליון */
 .container-fluid {
     background-color: #7EA8BE; 
     color: #28536B; 
 }
-/*סרגל ניווט*/
+
+/* סרגל ניווט */
 .navbar-brand {
     font-size: 50px;
     font-weight: bold;
     color: #1a3848;
 }
+
 .nav-link:hover { 
   color: #007bff; 
   transform: scale(1.15); 
 }
+
 .navbar-nav .nav-link {
     color: #28536B;
     font-size: 1.0rem;
     margin-top: 0px;
 }
 
-/* מלבן דק למטלות שהוסתרו */
+/* מלבן דק ואפור למטלות שהוסתרו */
 .hidden-task-strip {
-    background-color: #ffffff;
+    background-color: #f0f2f5; /* צבע אפור בהיר התואם לתיאור שלך */
     border: 1px solid #BDC3C7;
     border-right: 4px solid #7F8C8D;
     padding: 10px 15px; 
     margin-bottom: 8px;
     border-radius: 8px;
+    color: #333333;
 }
+
 h1 {
     color: white;
 }
+
+
 h4 {
     color: white;
+}
+
+
+#btnToggleHidden, #toggleHiddenBtn {
+    background-color: #28536B;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#btnToggleHidden:hover, #toggleHiddenBtn:hover {
+    background-color: #1a3848;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
 }

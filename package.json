@@ -1,0 +1,28 @@
+{
+  "name": "web_project_team_4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EyalBarak7/WEB_Project_Team_4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EyalBarak7/WEB_Project_Team_4/issues"
+  },
+  "homepage": "https://github.com/EyalBarak7/WEB_Project_Team_4#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.23.0"
+  }
+}
