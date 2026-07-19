@@ -375,4 +375,26 @@ window.addEventListener("load", function() {
             }
         });
     }
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+        // קריאה לשרת כדי למחוק את עוגיית ההתחברות / הסשן
+        const response = await fetch('/api/logout', { 
+            method: 'POST' 
+        });
+
+        if (response.ok) {
+            // ניקוי נתונים שנשמרו מקומית בדפדפן (אם השתמשת בזה)
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // הפניה מחדש לעמוד ההתחברות
+            window.location.href = 'login.html'; // ודא שזה שם קובץ ההתחברות שלך
+        } else {
+            console.error('שגיאה במהלך ההתנתקות');
+            alert('אופס, משהו השתבש בהתנתקות.');
+        }
+    } catch (error) {
+        console.error('שגיאת רשת:', error);
+    }
+});
 });

@@ -347,7 +347,29 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Index.html'));
 });
 
-
+// נתיב להתנתקות
+app.post('/api/logout', (req, res) => {
+    try {
+        // אם אתה משתמש ב-express-session
+        if (req.session) {
+            req.session.destroy((err) => {
+                if (err) {
+                    return res.status(500).json({ error: 'שגיאה במחיקת הסשן' });
+                }
+                res.clearCookie('connect.sid'); // השם הדיפולטיבי של עוגיית סשן
+                return res.status(200).json({ message: 'התנתקת בהצלחה' });
+            });
+        } 
+        // אם אתה משתמש ב-JWT או בעוגיות מותאמות אישית (שנה את 'token' לשם העוגייה שלך)
+        else {
+            res.clearCookie('token'); 
+            return res.status(200).json({ message: 'התנתקת בהצלחה' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'שגיאת שרת בהתנתקות' });
+    }
+});
 
 // הפעלת השרת
 app.listen(PORT, () => {
